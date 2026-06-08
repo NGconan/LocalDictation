@@ -6,7 +6,7 @@ from clipboard import copy_to_clipboard
 
 
 AUDIO_PATH = Path("recordings/input.wav")
-DURATION_SECONDS = 10
+DURATION_SECONDS = 10.0
 
 
 def main():
