@@ -47,11 +47,15 @@ def transcribe_and_paste():
 
 
 def toggle_recording():
-    if recording_session.is_recording:
-        recording_session.stop()
-        transcribe_and_paste()
-    else:
-        recording_session.start()
+    try:
+        if recording_session.is_recording:
+            recording_session.stop()
+            transcribe_and_paste()
+        else:
+            recording_session.start()
+    except Exception as error:
+        print("处理过程中出错：")
+        print(error)
 
 
 HOTKEY = keyboard.HotKey(
