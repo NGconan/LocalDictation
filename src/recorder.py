@@ -6,6 +6,7 @@ from pathlib import Path
 import sounddevice as sd
 #调用soundfile如用于保存录音并缩写为sf
 import soundfile as sf
+import numpy as np
 
 #定义常量 SAMPLE_RATE用于设置为 16000Hz 的采样率，whisper 模型使用这个采样率足够语音识别并减少资源占用
 SAMPLE_RATE = 16000
@@ -37,4 +38,36 @@ def record_audio(output_path: Path, duration_seconds: float):
 #调用soundfile库中的write函数将录音保存到指定路径，参数包括输出路径，音频数据和采样率
     sf.write(output_path, audio, SAMPLE_RATE)
 #最后输出提示信息告诉用户录音完成并显示保存路径
+    print(f"录音完成，已保存到：{output_path}")
+
+def record_audio_until_enter(output_path: Path):
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    audio_chunks = []
+
+    def audio_callback(indata, frames, time, status):
+        if status:
+            print(status)
+
+        audio_chunks.append(indata.copy())
+
+    input("按 Enter 开始录音。")
+
+    print("开始录音。说完后再按 Enter 停止。")
+
+    with sd.InputStream(
+        samplerate=SAMPLE_RATE,
+        channels=1,
+        dtype="float32",
+        callback=audio_callback,
+    ):
+        input()
+
+    if not audio_chunks:
+        raise RuntimeError("没有录到音频。")
+
+    audio = np.concatenate(audio_chunks, axis=0)
+
+    sf.write(output_path, audio, SAMPLE_RATE)
+
     print(f"录音完成，已保存到：{output_path}")

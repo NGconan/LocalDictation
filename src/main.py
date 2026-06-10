@@ -1,16 +1,15 @@
 from pathlib import Path
 
-from recorder import record_audio
+from recorder import record_audio_until_enter
 from transcriber import transcribe_audio
 from clipboard import copy_to_clipboard
 
 
 AUDIO_PATH = Path("recordings/input.wav")
-DURATION_SECONDS = 10.0
 
 
 def main():
-    record_audio(AUDIO_PATH, DURATION_SECONDS)
+    record_audio_until_enter(AUDIO_PATH)
 
     text = transcribe_audio(AUDIO_PATH)
 
