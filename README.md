@@ -43,11 +43,31 @@ Run:
 
 Then:
 
-Put your cursor in any text input field
-Press Enter in the terminal to start recording
-Speak
-Press Enter again to stop recording
-The recognized text will be copied and pasted automatically
+Then use the global hotkey:
+```
+Control + Option + H
+```
+Press once to start recording. Press again to stop recording, transcribe, correct hotwords, copy, and paste.
+
+Configuration
+
+Edit config.json:
+```json
+{
+  "hotkey": "<ctrl>+<alt>+h",
+  "model_size": "small",
+  "device": "cpu",
+  "compute_type": "int8",
+  "audio_path": "recordings/input.wav",
+  "auto_paste": true
+}
+```
+On macOS, <alt> means the Option key.
+
+Manual debug mode
+```bash
+python src/manual_main.py
+```
 
 Hotword corrections
 
@@ -62,7 +82,7 @@ open AI => OpenAI
 
 Format:
 
-```teext
+```text
 wrong text => corrected text
 ```
 
