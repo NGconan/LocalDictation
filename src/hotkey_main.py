@@ -10,7 +10,12 @@ from transcriber import transcribe_audio
 from config import load_config
 
 
-config = load_config()
+try:
+    config = load_config()
+except ValueError as error:
+    print("配置文件错误：")
+    print(error)
+    raise SystemExit(1)
 
 AUDIO_PATH = Path(config["audio_path"])
 HOTKEY_TEXT = config["hotkey"]
