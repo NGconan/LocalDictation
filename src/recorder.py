@@ -7,6 +7,7 @@ import sounddevice as sd
 #调用soundfile如用于保存录音并缩写为sf
 import soundfile as sf
 import numpy as np
+import threading
 
 #定义常量 SAMPLE_RATE用于设置为 16000Hz 的采样率，whisper 模型使用这个采样率足够语音识别并减少资源占用
 SAMPLE_RATE = 16000
@@ -71,3 +72,53 @@ def record_audio_until_enter(output_path: Path):
     sf.write(output_path, audio, SAMPLE_RATE)
 
     print(f"录音完成，已保存到：{output_path}")
+
+class RecordingSession:
+    def __init__(self, output_path: Path):
+        self.output_path = output_path
+        self.audio_chunks = []
+        self.stream = None
+        self.is_recording = False
+
+    def _audio_callback(self, indata, frames, time, status):
+        if status:
+            print(status)
+
+        self.audio_chunks.append(indata.copy())
+
+    def start(self):
+        if self.is_recording:
+            print("已经在录音中。")
+            return
+
+        self.output_path.parent.mkdir(parents=True, exist_ok=True)
+        self.audio_chunks = []
+
+        self.stream = sd.InputStream(
+            samplerate=SAMPLE_RATE,
+            channels=1,
+            dtype="float32",
+            callback=self._audio_callback,
+        )
+
+        self.stream.start()
+        self.is_recording = True
+        print("开始录音。再次按快捷键停止。")
+
+    def stop(self):
+        if not self.is_recording:
+            print("当前没有在录音。")
+            return
+
+        self.stream.stop()
+        self.stream.close()
+        self.stream = None
+        self.is_recording = False
+
+        if not self.audio_chunks:
+            raise RuntimeError("没有录到音频。")
+
+        audio = np.concatenate(self.audio_chunks, axis=0)
+        sf.write(self.output_path, audio, SAMPLE_RATE)
+
+        print(f"录音完成，已保存到：{self.output_path}")
