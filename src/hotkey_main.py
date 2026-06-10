@@ -7,9 +7,14 @@ from corrector import correct_hotwords
 from paster import paste_from_clipboard
 from recorder import RecordingSession
 from transcriber import transcribe_audio
+from config import load_config
 
 
-AUDIO_PATH = Path("recordings/input.wav")
+config = load_config()
+
+AUDIO_PATH = Path(config["audio_path"])
+HOTKEY_TEXT = config["hotkey"]
+AUTO_PASTE = config["auto_paste"]
 
 recording_session = RecordingSession(AUDIO_PATH)
 

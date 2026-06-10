@@ -1,0 +1,8 @@
+{
+  "hotkey": "<ctrl>+<alt>+h",
+  "model_size": "small",
+  "device": "cpu",
+  "compute_type": "int8",
+  "audio_path": "recordings/input.wav",
+  "auto_paste": true
+}
