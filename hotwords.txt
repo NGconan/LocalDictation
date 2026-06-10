@@ -1,4 +1,4 @@
 VS Cota => VS Code
 VS coat => VS Code
 v s code => VS Code
-open AI => OpenAIß
+open AI => OpenAI

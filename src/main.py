@@ -4,6 +4,7 @@ from recorder import record_audio_until_enter
 from transcriber import transcribe_audio
 from clipboard import copy_to_clipboard
 from corrector import correct_hotwords
+from paster import paste_from_clipboard
 
 
 AUDIO_PATH = Path("recordings/input.wav")
@@ -19,8 +20,8 @@ def main():
     print(text)
 
     copy_to_clipboard(text)
-
-    print("已复制到剪贴板，可以手动 Command + V 粘贴。")
+    paste_from_clipboard()
+    print("已复制到剪贴板，并已尝试自动粘贴。")
 
 
 if __name__ == "__main__":
