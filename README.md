@@ -99,7 +99,7 @@ System Settings → Privacy & Security → Accessibility
 - [x] Audio recording
 - [x] Whisper integration
 - [x] Clipboard output
-- [ ] Global hotkey
+- [x] Global hotkey
 - [x] Hotword correction
 - [ ] Local LLM cleanup
 - [ ] Native macOS app
