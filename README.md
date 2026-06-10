@@ -31,7 +31,7 @@ source .venv/bin/activate
 Install dependencies:
 
 ```Bash
-pip install sounddevice soundfile faster-whisper numpy
+pip install -r requirements.txt
 ```
 Usage
 
