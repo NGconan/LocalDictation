@@ -38,7 +38,7 @@ Usage
 Run:
 
 ```Bash
-python src/main.py
+./run.sh
 ```
 
 Then:
@@ -48,6 +48,7 @@ Press Enter in the terminal to start recording
 Speak
 Press Enter again to stop recording
 The recognized text will be copied and pasted automatically
+
 Hotword corrections
 
 Edit hotwords.txt to add correction rules:
