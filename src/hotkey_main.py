@@ -2,11 +2,8 @@ from pathlib import Path
 
 from pynput import keyboard
 
-from clipboard import copy_to_clipboard
-from corrector import correct_hotwords
-from paster import paste_from_clipboard
+from dictation_pipeline import process_audio
 from recorder import RecordingSession
-from transcriber import transcribe_audio
 from config import load_config
 
 
@@ -25,30 +22,13 @@ recording_session = RecordingSession(AUDIO_PATH)
 
 
 def transcribe_and_paste():
-    print("开始识别...")
-
-    text = transcribe_audio(
-    AUDIO_PATH,
-    model_size=config["model_size"],
-    device=config["device"],
-    compute_type=config["compute_type"],
-)
-    text = correct_hotwords(text)
-
-    print("识别结果：")
-    print(text)
-
-    if not text:
-        print("没有识别到文字。")
-        return
-
-    copy_to_clipboard(text)
-
-    if AUTO_PASTE:
-        paste_from_clipboard()
-        print("已复制到剪贴板，并已尝试自动粘贴。")
-    else:
-        print("已复制到剪贴板。")
+    process_audio(
+        AUDIO_PATH,
+        model_size=config["model_size"],
+        device=config["device"],
+        compute_type=config["compute_type"],
+        auto_paste=AUTO_PASTE,
+    )
 
 
 def toggle_recording():
